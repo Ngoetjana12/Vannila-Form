@@ -48,7 +48,7 @@ public class UserService {
 
     public UserResponseObject editUser(Long id, String newEmail){
 
-        User user = repository.findById(id).orElseThrow(null);
+        User user = repository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
 
         user.setEmail(newEmail);
         User editedUser = repository.save(user);
