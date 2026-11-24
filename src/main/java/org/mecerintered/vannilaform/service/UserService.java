@@ -6,6 +6,9 @@ import org.mecerintered.vannilaform.entity.User;
 import org.mecerintered.vannilaform.repo.UserRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -25,5 +28,22 @@ public class UserService {
 
         return new UserResponseObject(savedUser.getId(), user.getName(), user.getEmail());
 
+    }
+
+    public List<UserResponseObject> getAllPeople(){
+
+        List<UserResponseObject> allPeople = new ArrayList<>();
+
+        for(User user: repository.findAll()){
+
+            UserResponseObject responseDTO = new UserResponseObject(
+                    user.getId(),
+                    user.getName(),
+                    user.getEmail()
+            );
+
+            allPeople.add(responseDTO);
+        }
+        return allPeople;
     }
 }
