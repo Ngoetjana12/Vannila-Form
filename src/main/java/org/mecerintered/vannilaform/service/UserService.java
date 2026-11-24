@@ -1,6 +1,5 @@
 package org.mecerintered.vannilaform.service;
 
-import org.mecerintered.vannilaform.dto.UserRequestObject;
 import org.mecerintered.vannilaform.dto.UserResponseObject;
 import org.mecerintered.vannilaform.entity.User;
 import org.mecerintered.vannilaform.repo.UserRepo;
@@ -18,7 +17,7 @@ public class UserService {
         this.repository = repository;
     }
 
-    public UserResponseObject createUser(UserRequestObject request){
+    public UserResponseObject createUser(UserResponseObject request){
 
         User user = new User();
         user.setName(request.name());
@@ -45,5 +44,20 @@ public class UserService {
             allPeople.add(responseDTO);
         }
         return allPeople;
+    }
+
+    public UserResponseObject editUser(Long id, String newEmail){
+
+        User user = repository.findById(id).orElseThrow(null);
+
+        user.setEmail(newEmail);
+        User editedUser = repository.save(user);
+
+        return new UserResponseObject(editedUser.getId(), editedUser.getName(), editedUser.getEmail());
+    }
+
+    public void deleteUser(Long id) {
+
+        repository.deleteById(id);
     }
 }
